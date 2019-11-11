@@ -1,0 +1,18 @@
+<ol>
+	<!-- <li>
+		<mat-form-field>
+			<input matInput [(ngModel)]="name" placeholder="What's your name?">
+    </mat-form-field>
+	</li> -->
+	<li>
+		<button mat-raised-button (click)="openDialog()">Select TAG</button>
+	</li>
+	<li *ngIf="selected">
+		You chose: <i>{{selected | json }}</i>
+	</li>
+</ol>
+
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
