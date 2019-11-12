@@ -18,14 +18,15 @@ import { MatPaginator } from "@angular/material/paginator";
   styleUrls: ["dialog-overview-example.css"]
 })
 export class DialogOverviewExample {
-  selected: Array<TAGElement>=[];
+  selected: Array<TAGElement>= [];
 
   constructor(public dialog: MatDialog) {}
 
   openDialog(): void {
+    let selected =this.selected;
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: "80%",
-      data: { ELEMENT_DATA }
+      width: "90%",
+      data: { ELEMENT_DATA, selected }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -122,7 +123,7 @@ export class DialogOverviewExampleDialog {
     "Attribute"
   ];
   dataSource = new MatTableDataSource<TAGElement>(this.data.ELEMENT_DATA);
-  selection = new SelectionModel<TAGElement>(true, []);
+  selection = new SelectionModel<TAGElement>(true, this.data.selected);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
