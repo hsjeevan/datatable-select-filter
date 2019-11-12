@@ -8,41 +8,12 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 
-
-/**
- * @title Dialog Overview
- */
-@Component({
-  selector: "dialog-overview-example",
-  templateUrl: "dialog-overview-example.html",
-  styleUrls: ["dialog-overview-example.css"]
-})
-export class DialogOverviewExample {
-  selected: Array<TAGElement>= [];
-
-  constructor(public dialog: MatDialog) {}
-
-  openDialog(): void {
-    let selected =this.selected;
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: "90%",
-      data: { ELEMENT_DATA, selected }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed");
-      this.selected = result;
-      console.log(this.selected);
-    });
-  }
-}
 export interface TAGElement {
   Description: string;
   Attribute: string;
   TAG: string;
   Type: string;
 }
-
 const ELEMENT_DATA: TAGElement[] = [
   {
     Attribute: "Yet to Start",
@@ -99,6 +70,34 @@ const ELEMENT_DATA: TAGElement[] = [
     Type: "Multiple"
   }
 ];
+/**
+ * @title Dialog Overview
+ */
+@Component({
+  selector: "dialog-overview-example",
+  templateUrl: "dialog-overview-example.html",
+  styleUrls: ["dialog-overview-example.css"]
+})
+export class DialogOverviewExample {
+  selected: Array<TAGElement> = [];
+
+  constructor(public dialog: MatDialog) {}
+
+  openDialog(): void {
+    let selected = this.selected;
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: "90%",
+      data: { ELEMENT_DATA, selected }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selected = result;
+      }
+    });
+  }
+}
+
 @Component({
   selector: "dialog-overview-example-dialog",
   templateUrl: "dialog-overview-example-dialog.html"
@@ -148,6 +147,7 @@ export class DialogOverviewExampleDialog {
       this.selection.isSelected(row) ? "deselect" : "select"
     } row ${row.Attribute + 1}`;
   }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -156,7 +156,3 @@ export class DialogOverviewExampleDialog {
     this.dialogRef.close();
   }
 }
-
-/**  Copyright 2019 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license */

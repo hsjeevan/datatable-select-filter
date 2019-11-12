@@ -7,7 +7,7 @@
 	<li>
 		<button mat-raised-button (click)="openDialog()">Select TAG</button>
 	</li>
-	<li *ngIf="selected">
+	<li *ngIf="selected.length!=0">
 		You chose: <i>{{selected | json }}</i>
 	</li>
 </ol>
