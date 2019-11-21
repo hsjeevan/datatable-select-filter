@@ -134,8 +134,9 @@ export class DialogOverviewExampleDialog {
 
     this.dataSource.data.forEach(row => {
       if (this.data.selected.some(dat => dat.TAG === row.TAG))
-        return this.selection.select(row)
+        return this.selection.select(row);
     });
+    this.sortBySelected();
   }
 
   displayedColumns: string[] = [
@@ -146,7 +147,7 @@ export class DialogOverviewExampleDialog {
     "Attribute"
   ];
   dataSource = new MatTableDataSource<TAGElement>(this.data.ELEMENT_DATA);
-  selection = new SelectionModel<TAGElement>(true,[]);
+  selection = new SelectionModel<TAGElement>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -178,5 +179,12 @@ export class DialogOverviewExampleDialog {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  sortBySelected() {
+    let cachedObject = {};
+    let data = [...this.selection.selected, ...this.dataSource.data];
+    data.map(item => (cachedObject[item.TAG] = item));
+    data = Object.values(cachedObject);
+    this.dataSource.data = data;
   }
 }
