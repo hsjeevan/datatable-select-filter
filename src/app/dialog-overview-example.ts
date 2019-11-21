@@ -14,6 +14,21 @@ export interface TAGElement {
   TAG: string;
   Type: string;
 }
+const sel = [
+  {
+    Attribute: "In progress",
+    Description: "Activity in progress",
+    TAG: "AD_IP",
+    Type: "Single"
+  },
+  {
+    Attribute: "Show TACtivity",
+    Description: "A Show TAC that will not be made by children",
+    TAG: "TC_SHOW",
+    Type: "Multiple"
+  }
+];
+
 const ELEMENT_DATA: TAGElement[] = [
   {
     Attribute: "Yet to Start",
@@ -36,37 +51,37 @@ const ELEMENT_DATA: TAGElement[] = [
   {
     Attribute: "Yet to Start",
     Description: "Activity yet to start",
-    TAG: "AD_YTS",
+    TAG: "AD_YTS1",
     Type: "Single"
   },
   {
     Attribute: "In progress",
     Description: "Activity in progress",
-    TAG: "AD_IP",
+    TAG: "AD_IP1",
     Type: "Single"
   },
   {
     Attribute: "Show TACtivity",
     Description: "A Show TAC that will not be made by children",
-    TAG: "TC_SHOW",
+    TAG: "TC_SHOW1",
     Type: "Multiple"
   },
   {
     Attribute: "Yet to Start",
     Description: "Activity yet to start",
-    TAG: "AD_YTS",
+    TAG: "AD_YTS2",
     Type: "Single"
   },
   {
     Attribute: "In progress",
     Description: "Activity in progress",
-    TAG: "AD_IP",
+    TAG: "AD_IP2",
     Type: "Single"
   },
   {
     Attribute: "Show TACtivity",
     Description: "A Show TAC that will not be made by children",
-    TAG: "TC_SHOW",
+    TAG: "TC_SHOW2",
     Type: "Multiple"
   }
 ];
@@ -84,6 +99,7 @@ export class DialogOverviewExample {
   constructor(public dialog: MatDialog) {}
 
   openDialog(): void {
+    if (this.selected.length < 1) this.selected = sel;
     let selected = this.selected;
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: "90%",
@@ -137,6 +153,11 @@ export class DialogOverviewExampleDialog {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+  check(row) {
+    if (this.data.selected.some(dat => dat.TAG === row.TAG)) return true;
+
+    return this.selection.isSelected(row);
   }
 
   /** The label for the checkbox on the passed row */
