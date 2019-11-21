@@ -100,7 +100,8 @@ export class DialogOverviewExample {
 
 @Component({
   selector: "dialog-overview-example-dialog",
-  templateUrl: "dialog-overview-example-dialog.html"
+  templateUrl: "dialog-overview-example-dialog.html",
+  styleUrls: ["dialog-overview-example.css"]
 })
 export class DialogOverviewExampleDialog {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

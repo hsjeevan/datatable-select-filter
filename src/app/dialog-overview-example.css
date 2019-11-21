@@ -1,1 +1,4 @@
 /** No CSS for this example */
+.mat-column-TAG, .mat-column-Select,.mat-column-Description,.mat-column-Type,.mat-column-Attribute {
+  padding-left: 10px;
+}
