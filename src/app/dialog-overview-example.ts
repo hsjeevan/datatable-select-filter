@@ -96,10 +96,12 @@ const ELEMENT_DATA: TAGElement[] = [
 export class DialogOverviewExample {
   selected: Array<TAGElement> = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+    this.selected = sel;
+  }
 
   openDialog(): void {
-    if (this.selected.length < 1) this.selected = sel;
+    // if (this.selected.length < 1)
     let selected = this.selected;
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: "90%",
@@ -129,6 +131,11 @@ export class DialogOverviewExampleDialog {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+
+    this.dataSource.data.forEach(row => {
+      if (this.data.selected.some(dat => dat.TAG === row.TAG))
+        return this.selection.select(row)
+    });
   }
 
   displayedColumns: string[] = [
@@ -139,7 +146,7 @@ export class DialogOverviewExampleDialog {
     "Attribute"
   ];
   dataSource = new MatTableDataSource<TAGElement>(this.data.ELEMENT_DATA);
-  selection = new SelectionModel<TAGElement>(true, this.data.selected);
+  selection = new SelectionModel<TAGElement>(true,[]);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -153,11 +160,6 @@ export class DialogOverviewExampleDialog {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-  check(row) {
-    if (this.data.selected.some(dat => dat.TAG === row.TAG)) return true;
-
-    return this.selection.isSelected(row);
   }
 
   /** The label for the checkbox on the passed row */
